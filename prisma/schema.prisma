@@ -1,0 +1,35 @@
+// Bookypaky - 어린이 동화책 서비스 데이터 모델
+// https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Book {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  coverImage  String?
+  ageMin      Int      @default(3)
+  ageMax      Int      @default(7)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  pages       Page[]
+}
+
+model Page {
+  id        String  @id @default(cuid())
+  bookId    String
+  pageOrder Int
+  text      String
+  image     String?
+  book      Book    @relation(fields: [bookId], references: [id], onDelete: Cascade)
+
+  @@unique([bookId, pageOrder])
+  @@index([bookId])
+}
