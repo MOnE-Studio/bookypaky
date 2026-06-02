@@ -29,6 +29,9 @@ export function Reader({ title, pages }: { title: string; pages: string[] }) {
   // 현재 페이지와 양옆 한 장씩만 마운트해서 넘김을 매끄럽게(미리 로드)
   const window3 = [page - 1, page, page + 1].filter((i) => i >= 0 && i <= last);
 
+  // 방어: 페이지가 없으면 깨진 카운터/음수 인덱스 대신 아무것도 렌더하지 않음
+  if (pages.length === 0) return null;
+
   return (
     <div
       className="reader"

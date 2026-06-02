@@ -895,6 +895,13 @@ body {
 .reader-nav:focus-visible {
   opacity: 1;
 }
+/* 터치 기기(hover 없음)에서는 화살표를 항상 노출 — 비활성 페이지 버튼은
+   인라인 opacity:0가 우선해 그대로 숨겨짐 */
+@media (pointer: coarse) {
+  .reader-nav {
+    opacity: 1;
+  }
+}
 .reader-nav span {
   display: grid;
   place-items: center;

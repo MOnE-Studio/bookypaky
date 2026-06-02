@@ -7,10 +7,20 @@ type Props = {
   href?: string;
   size?: "default" | "hub";
   cover?: string;
+  /** 첫 화면(폴드 위)에 노출될 때만 true — 기본은 lazy 로드 */
+  priority?: boolean;
   className?: string;
 };
 
-function PosterInner({ title, cover }: { title: string; cover?: string }) {
+function PosterInner({
+  title,
+  cover,
+  priority = false,
+}: {
+  title: string;
+  cover?: string;
+  priority?: boolean;
+}) {
   if (cover) {
     return (
       <Image
@@ -19,7 +29,7 @@ function PosterInner({ title, cover }: { title: string; cover?: string }) {
         fill
         sizes="(min-width: 900px) 440px, 78vw"
         className="object-cover"
-        priority
+        priority={priority}
       />
     );
   }
@@ -38,6 +48,7 @@ export function BookPoster({
   href,
   size = "default",
   cover,
+  priority = false,
   className,
 }: Props) {
   const cls = [
@@ -55,7 +66,7 @@ export function BookPoster({
   if (href) {
     return (
       <Link href={href} className={cls} data-title={dataTitle} aria-label={title}>
-        <PosterInner title={title} cover={cover} />
+        <PosterInner title={title} cover={cover} priority={priority} />
       </Link>
     );
   }
