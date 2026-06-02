@@ -38,7 +38,7 @@ export default function HomePage() {
               className="hero-overlay hero-up"
             />
           </div>
-          <div className="mt-9">
+          <div className="mt-9 text-center">
             <span className="tagline-pill">“아래에 마법이 숨어있어!”</span>
           </div>
         </div>

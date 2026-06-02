@@ -712,15 +712,20 @@ body {
 /* ----- Intro tagline pill ----- */
 .tagline-pill {
   display: inline-block;
-  transform: rotate(-2deg);
-  border-radius: 999px;
-  background: var(--color-brand-blue);
-  color: var(--color-brand-orange-soft);
+  color: #ffffff;
   font-weight: 900;
   font-size: clamp(15px, 4.2vw, 30px);
   letter-spacing: -0.02em;
-  padding: 0.62em 1.5em;
-  box-shadow: 6px 6px 0 rgba(40, 56, 140, 0.26);
+  text-shadow:
+    -1.5px 0 0 var(--color-brand-blue),
+    1.5px 0 0 var(--color-brand-blue),
+    0 -1.5px 0 var(--color-brand-blue),
+    0 1.5px 0 var(--color-brand-blue),
+    -1.5px -1.5px 0 var(--color-brand-blue),
+    1.5px -1.5px 0 var(--color-brand-blue),
+    -1.5px 1.5px 0 var(--color-brand-blue),
+    1.5px 1.5px 0 var(--color-brand-blue),
+    0 4px 0 rgba(40, 56, 140, 0.18);
 }
 
 /* ----- Bookshelf ----- */
