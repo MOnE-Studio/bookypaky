@@ -635,6 +635,7 @@ body {
 
 /* Portrait phones & tablets get the rotate guide; desktops always see spread */
 @media (orientation: portrait) and (pointer: coarse) {
+  .reader,
   .viewer-spread,
   .viewer-controls,
   .viewer-title {
