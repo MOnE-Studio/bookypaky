@@ -1,11 +1,13 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-cream: #f8f5ef;
-  --color-ink: #1f2933;
-  --color-brand-blue: #3156d8;
-  --color-brand-blue-dark: #162d82;
-  --color-brand-orange: #ff9418;
+  /* Brand palette — locked to the layout spec swatches */
+  --color-cream: #faf8f5;
+  --color-ink: #262626;
+  --color-night: #262626;
+  --color-brand-blue: #3859cd;
+  --color-brand-blue-dark: #2742a4;
+  --color-brand-orange: #ff9813;
   --color-brand-orange-soft: #ffab16;
   --color-logo-cyan: #28b9ec;
   --color-logo-cyan-bright: #31b8ef;
@@ -55,7 +57,7 @@ body {
 }
 .bg-curve {
   position: fixed;
-  border: 2px solid #ff9418;
+  border: 2px solid var(--color-brand-orange);
   border-radius: 999px;
   pointer-events: none;
   z-index: 0;
@@ -260,6 +262,15 @@ body {
   bottom: 82px;
   font-size: 72px;
   z-index: 6;
+}
+
+/* real cover image (square) instead of the CSS placeholder */
+.poster.has-cover {
+  aspect-ratio: 1 / 1;
+  background: #fff;
+}
+.poster.has-cover::before {
+  content: none;
 }
 
 /* hub-sized poster overrides */
@@ -674,4 +685,318 @@ body {
     bottom: 88px;
     font-size: 64px;
   }
+}
+
+/* =====================================================================
+   LAYOUT SPEC — Intro / Bookshelf / Our Story / IP detail / Read / Play
+   Mobile-first. Portrait phone = stacked. Landscape phone & PC = wide.
+   ===================================================================== */
+
+/* Full-bleed scroll section that fills (close to) one screen */
+.screen {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 100svh;
+  scroll-margin-top: 72px;
+  padding: 84px 20px 56px;
+  text-align: center;
+}
+@media (min-width: 900px) {
+  .screen {
+    padding: 104px 32px 72px;
+  }
+}
+
+/* ----- Intro tagline pill ----- */
+.tagline-pill {
+  display: inline-block;
+  transform: rotate(-2deg);
+  border-radius: 999px;
+  background: var(--color-brand-blue);
+  color: var(--color-brand-orange-soft);
+  font-weight: 900;
+  font-size: clamp(15px, 4.2vw, 30px);
+  letter-spacing: -0.02em;
+  padding: 0.62em 1.5em;
+  box-shadow: 6px 6px 0 rgba(40, 56, 140, 0.26);
+}
+
+/* ----- Bookshelf ----- */
+.shelf-title {
+  font-size: clamp(20px, 5.4vw, 34px);
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  color: var(--color-ink);
+}
+.shelf-sub {
+  margin-top: 8px;
+  font-size: clamp(12px, 3vw, 15px);
+  font-weight: 700;
+  color: #8a8a8a;
+}
+
+/* ----- Our Story ----- */
+.story-media {
+  width: min(86vw, 760px);
+  aspect-ratio: 16 / 10;
+  border-radius: 18px;
+  background:
+    radial-gradient(120% 120% at 50% 0%, #4a6bdd 0%, var(--color-brand-blue) 60%);
+  display: grid;
+  place-items: center;
+  color: rgba(255, 255, 255, 0.55);
+  font-weight: 800;
+  font-size: clamp(15px, 3vw, 22px);
+  letter-spacing: 0.04em;
+  box-shadow: 8px 10px 0 rgba(40, 56, 140, 0.2);
+  overflow: hidden;
+}
+@media (min-width: 900px) {
+  .story-media {
+    aspect-ratio: 16 / 8;
+  }
+}
+.story-bar {
+  width: min(86vw, 760px);
+  margin-top: 18px;
+  border-radius: 14px;
+  background: var(--color-night);
+  color: #fff;
+  padding: clamp(20px, 4vw, 34px);
+  text-align: center;
+}
+.story-bar .quote {
+  font-size: clamp(16px, 3.4vw, 26px);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+.story-bar .letter {
+  margin-top: 10px;
+  font-size: clamp(11px, 2.6vw, 15px);
+  font-weight: 600;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+/* ----- IP detail: speech-bubble action icons ----- */
+.hub-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(26px, 6vw, 40px);
+  width: 100%;
+  max-width: 980px;
+}
+/* landscape phone & desktop: lay the three icons in a row */
+@media (min-width: 600px) {
+  .hub-actions {
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    gap: clamp(28px, 6vw, 96px);
+  }
+}
+.hub-action {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+  color: var(--color-brand-blue);
+  flex: 0 1 auto;
+}
+.hub-action .icon-frame {
+  display: grid;
+  place-items: center;
+  width: clamp(108px, 30vw, 150px);
+  aspect-ratio: 1 / 1;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.hub-action .icon-frame img {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: drop-shadow(4px 6px 0 rgba(40, 56, 140, 0.12));
+}
+.hub-action:hover .icon-frame {
+  transform: scale(1.12);
+}
+.hub-action:active .icon-frame {
+  transform: scale(1.04);
+}
+.hub-action .label {
+  font-size: clamp(14px, 3.4vw, 18px);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+}
+.hub-action .sub {
+  font-size: clamp(11px, 2.6vw, 13px);
+  font-weight: 700;
+  color: #7d8bbf;
+  max-width: 200px;
+  line-height: 1.5;
+}
+
+/* ----- Read: full-screen storybook viewer ----- */
+.reader {
+  position: relative;
+  width: min(100vw, 1280px);
+  margin-inline: auto;
+  aspect-ratio: 2 / 1; /* 페이지 원본 비율(8160×4080) */
+  max-height: calc(100svh - 96px);
+  background: #11203a;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 18px 54px rgba(0, 0, 0, 0.16);
+}
+.reader-page {
+  position: absolute;
+  inset: 0;
+  transition: opacity 0.25s ease;
+}
+.reader-counter {
+  position: absolute;
+  right: 14px;
+  bottom: 12px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: rgba(17, 32, 58, 0.62);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  pointer-events: none;
+}
+.reader-nav {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 26%;
+  display: grid;
+  place-items: center;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.reader-nav.prev {
+  left: 0;
+  justify-items: start;
+  padding-left: 16px;
+}
+.reader-nav.next {
+  right: 0;
+  justify-items: end;
+  padding-right: 16px;
+}
+.reader:hover .reader-nav,
+.reader-nav:focus-visible {
+  opacity: 1;
+}
+.reader-nav span {
+  display: grid;
+  place-items: center;
+  width: clamp(40px, 7vw, 60px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--color-brand-blue);
+  color: #fff;
+  font-size: clamp(20px, 4vw, 30px);
+  font-weight: 900;
+  box-shadow: 0 6px 0 rgba(40, 56, 140, 0.3);
+}
+.reader-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 14px;
+  transform: translateX(-50%);
+  font-size: 30px;
+  pointer-events: none;
+  animation: swipeHint 2.2s ease-in-out infinite;
+}
+@keyframes swipeHint {
+  0%, 100% { transform: translateX(-58%); }
+  50% { transform: translateX(-42%); }
+}
+
+/* ----- Play: playground gallery ----- */
+.play-gallery {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  width: min(92vw, 1040px);
+}
+@media (min-width: 600px) {
+  .play-gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 900px) {
+  .play-gallery {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+  }
+}
+.play-card {
+  aspect-ratio: 9 / 14;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #eef3ff, #dfe7ff);
+  border: 2px dashed #b9c5ef;
+  display: grid;
+  place-items: center;
+  color: #8294cf;
+  font-weight: 800;
+  font-size: 14px;
+}
+@media (min-width: 600px) {
+  .play-card {
+    aspect-ratio: 9 / 12;
+  }
+}
+
+/* ----- "다음 마법 세계로 가기" CTA bar ----- */
+.next-world {
+  position: relative;
+  display: block;
+  width: 100%;
+  border: 0;
+  cursor: pointer;
+  background: var(--color-night);
+  color: #fff;
+  text-align: center;
+  padding: clamp(20px, 4vw, 30px);
+  font-size: clamp(15px, 3.4vw, 22px);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  overflow: hidden;
+}
+.next-world::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 12px;
+  width: 0;
+  height: 3px;
+  background: var(--color-brand-orange);
+  transform: translateX(-50%);
+  transition: width 0.3s ease;
+}
+.next-world:hover::after,
+.next-world:focus-visible::after {
+  width: clamp(140px, 30vw, 260px);
+}
+
+/* ----- Kor/eng language toggle ----- */
+.lang-toggle {
+  font-weight: 800;
+  color: #fff;
+}
+.lang-toggle .eng {
+  transition: color 0.2s ease;
+}
+.lang-toggle:hover .eng,
+.lang-toggle[aria-pressed="true"] .eng {
+  color: var(--color-brand-orange);
 }

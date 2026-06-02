@@ -33,13 +33,13 @@ function useMenuItems(): MenuItem[] {
 
   if (pathname === "/" || pathname === "") {
     return [
-      { label: "home", href: "/" },
-      { label: "서재", onClick: () => scrollOnHome("shelfStart", "start") },
-      { label: "company", onClick: () => scrollOnHome("companySection", "center") },
+      { label: "소개", onClick: () => scrollOnHome("intro", "start") },
+      { label: "서재", onClick: () => scrollOnHome("shelf", "start") },
+      { label: "스토리", onClick: () => scrollOnHome("story", "start") },
     ];
   }
 
-  const bookMatch = pathname.match(/^\/books\/([^/]+)(?:\/(read|game|shorts|characters))?/);
+  const bookMatch = pathname.match(/^\/books\/([^/]+)(?:\/(read|play))?/);
   if (bookMatch) {
     const slug = bookMatch[1];
     const sub = bookMatch[2];
@@ -47,37 +47,19 @@ function useMenuItems(): MenuItem[] {
 
     if (!sub) {
       return [
-        { label: "← home", href: "/" },
-        { label: "동화책 보기", href: `${hub}/read` },
-        { label: "게임", href: `${hub}/game` },
-        { label: "쇼츠", href: `${hub}/shorts` },
-        { label: "캐릭터", href: `${hub}/characters` },
+        { label: "다른 책 고르기", href: "/#shelf" },
+        { label: "동화책 읽기", href: `${hub}/read` },
+        { label: "놀이터", href: `${hub}/play` },
       ];
     }
-    if (sub === "read") {
-      return [
-        { label: "← 작품 허브", href: hub },
-        { label: "처음 페이지", onClick: () => {} },
-        { label: "이전 페이지", onClick: () => {} },
-        { label: "다음 페이지", onClick: () => {} },
-      ];
-    }
-    const others = (["read", "game", "shorts", "characters"] as const).filter(
-      (s) => s !== sub
-    );
-    const labels: Record<string, string> = {
-      read: "동화책 보기",
-      game: "게임",
-      shorts: "쇼츠",
-      characters: "캐릭터",
-    };
     return [
-      { label: "← 작품 허브", href: hub },
-      ...others.map((s) => ({ label: labels[s], href: `${hub}/${s}` })),
+      { label: "← 작품으로", href: hub },
+      { label: "동화책 읽기", href: `${hub}/read` },
+      { label: "놀이터", href: `${hub}/play` },
     ];
   }
 
-  return [{ label: "home", href: "/" }];
+  return [{ label: "← home", href: "/" }];
 }
 
 const HIDE_THRESHOLD = 180;
@@ -153,7 +135,7 @@ export function AppShell() {
         <Link
           href="/"
           aria-label="홈으로"
-          className="justify-self-center"
+          className="min-w-0 justify-self-center"
           onClick={() => {
             if (typeof window !== "undefined")
               window.scrollTo({ top: 0, behavior: "smooth" });
@@ -170,9 +152,12 @@ export function AppShell() {
         </Link>
         <button
           type="button"
-          className="spring h-8 w-[64px] justify-self-end rounded-xl bg-brand-blue text-[11px] font-black text-white shadow-[0_4px_0_rgba(22,45,130,0.32)] min-[900px]:h-9 min-[900px]:w-[72px] min-[900px]:text-[12px]"
+          aria-label="언어 전환 Kor / eng"
+          className="lang-toggle spring h-8 w-[64px] justify-self-end rounded-xl bg-brand-blue text-[11px] font-black shadow-[0_4px_0_rgba(40,56,140,0.32)] min-[900px]:h-9 min-[900px]:w-[72px] min-[900px]:text-[12px]"
         >
-          Kor/eng
+          <span>Kor</span>
+          <span className="text-white/55">/</span>
+          <span className="eng">eng</span>
         </button>
       </header>
 
